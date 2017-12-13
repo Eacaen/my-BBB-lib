@@ -44,11 +44,10 @@ private:
 	double zero_accX=0, zero_accY=0, zero_accZ=0; // raw 2's complement values
 	double zero_GyroX=0, zero_GyroY=0, zero_GyroZ=0;
 
+
+public:
 	double accelerationX, accelerationY, accelerationZ; // raw 2's complement values
 	double GyroX, GyroY, GyroZ;
-public:
-
-
 
 	void Zero_AG();
 	short combineRegisters(unsigned char msb, unsigned char lsb);
@@ -56,22 +55,22 @@ public:
 
 	MPU6050(unsigned int I2CBus, unsigned int I2CAddress=0x68);
 
-	virtual int readSensorState();
-	virtual int readSensorDate();
+	int readSensorState();
+	int readSensorDate();
 
-	virtual int Sensor_WeakUp();
+	int Sensor_WeakUp();
 	
-	virtual unsigned char Get_ID();
+	unsigned char Get_ID();
 
-	virtual short getAccelerationX() { return accelerationX; }
-	virtual short getAccelerationY() { return accelerationY; }
-	virtual short getAccelerationZ() { return accelerationZ; }
+	short getAccelerationX() { return accelerationX; }
+	short getAccelerationY() { return accelerationY; }
+	short getAccelerationZ() { return accelerationZ; }
 
-	virtual short getGyroX() { return GyroX; }
-	virtual short getGyroY() { return GyroY; }
-	virtual short getGyroZ() { return GyroZ; }
+	short getGyroX() { return GyroX; }
+	short getGyroY() { return GyroY; }
+	short getGyroZ() { return GyroZ; }
 
-	virtual ~MPU6050();
+	~MPU6050();
 };
 
 } /* namespace exploringBB */

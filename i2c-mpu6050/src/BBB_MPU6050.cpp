@@ -49,9 +49,6 @@ short MPU6050::combineRegisters(unsigned char msb, unsigned char lsb)
 	return ((short)msb<<8)|(short)lsb;
 }
 
-
-
-
 /**
  * The constructor for the MPU6050 accelerometer object. It passes the bus number and the
  * device address (with is 0x53 by default) to the constructor of I2CDevice. All of the states
@@ -62,19 +59,19 @@ short MPU6050::combineRegisters(unsigned char msb, unsigned char lsb)
 MPU6050::MPU6050(unsigned int I2CBus, unsigned int I2CAddress):I2CDevice(I2CBus, I2CAddress)
 {	
 	// this member initialisation list calls the parent constructor
-	this->I2CAddress = I2CAddress;
-	this->I2CBus = I2CBus;
+	I2CAddress = I2CAddress;
+	I2CBus = I2CBus;
 
-	this->accelerationX = 0;
-	this->accelerationY = 0;
-	this->accelerationZ = 0;
+	accelerationX = 0;
+	accelerationY = 0;
+	accelerationZ = 0;
 
-	this->GyroX = 0;
-	this->GyroY = 0;
-	this->GyroZ = 0;
+	GyroX = 0;
+	GyroY = 0;
+	GyroZ = 0;
 
-	this->registers = NULL;
-	this->Sensor_WeakUp();
+	registers = NULL;
+	Sensor_WeakUp();
 }
 
 /**
@@ -84,45 +81,45 @@ MPU6050::MPU6050(unsigned int I2CBus, unsigned int I2CAddress):I2CDevice(I2CBus,
  * @return 0 if the registers are successfully read and -1 if the device ID is incorrect.
  */
 int MPU6050::readSensorState(){
-	this->registers = this->readRegisters(1, WHO_AM_I);
-	if(*this->registers!=MPU6050_ID)
+	registers = readRegisters(1, WHO_AM_I);
+	if(*registers!=MPU6050_ID)
 	{
 		perror("MPU6050: Failure Condition - Sensor ID not Verified");
 		return -1;
 	}
-	this->accelerationX = this->combineRegisters(this->readRegister(ACCEL_XOUT_H), this->readRegister(ACCEL_XOUT_L));
-	this->accelerationY = this->combineRegisters(this->readRegister(ACCEL_YOUT_H), this->readRegister(ACCEL_YOUT_L));
-	this->accelerationZ = this->combineRegisters(this->readRegister(ACCEL_ZOUT_H), this->readRegister(ACCEL_ZOUT_L));
+	accelerationX = combineRegisters(readRegister(ACCEL_XOUT_H), readRegister(ACCEL_XOUT_L));
+	accelerationY = combineRegisters(readRegister(ACCEL_YOUT_H), readRegister(ACCEL_YOUT_L));
+	accelerationZ = combineRegisters(readRegister(ACCEL_ZOUT_H), readRegister(ACCEL_ZOUT_L));
 
-	this->GyroX = this->combineRegisters(this->readRegister(GYRO_XOUT_H), this->readRegister(GYRO_XOUT_L));
-	this->GyroY = this->combineRegisters(this->readRegister(GYRO_YOUT_H), this->readRegister(GYRO_YOUT_L));
-	this->GyroZ = this->combineRegisters(this->readRegister(GYRO_ZOUT_H), this->readRegister(GYRO_ZOUT_L));
+	GyroX = combineRegisters(readRegister(GYRO_XOUT_H), readRegister(GYRO_XOUT_L));
+	GyroY = combineRegisters(readRegister(GYRO_YOUT_H), readRegister(GYRO_YOUT_L));
+	GyroZ = combineRegisters(readRegister(GYRO_ZOUT_H), readRegister(GYRO_ZOUT_L));
 
 	return 0;
 }
 
 int MPU6050::readSensorDate(){
-	this->registers = this->readRegisters(1, WHO_AM_I);
-	if(*this->registers!=MPU6050_ID)
+	registers = readRegisters(1, WHO_AM_I);
+	if(*registers!=MPU6050_ID)
 	{
 		perror("MPU6050: Failure Condition - Sensor ID not Verified");
 		return -1;
 	}
-	this->accelerationX = this->combineRegisters(this->readRegister(ACCEL_XOUT_H), this->readRegister(ACCEL_XOUT_L));
-	this->accelerationY = this->combineRegisters(this->readRegister(ACCEL_YOUT_H), this->readRegister(ACCEL_YOUT_L));
-	this->accelerationZ = this->combineRegisters(this->readRegister(ACCEL_ZOUT_H), this->readRegister(ACCEL_ZOUT_L));
+	accelerationX = combineRegisters(readRegister(ACCEL_XOUT_H), readRegister(ACCEL_XOUT_L));
+	accelerationY = combineRegisters(readRegister(ACCEL_YOUT_H), readRegister(ACCEL_YOUT_L));
+	accelerationZ = combineRegisters(readRegister(ACCEL_ZOUT_H), readRegister(ACCEL_ZOUT_L));
 
-	this->GyroX = this->combineRegisters(this->readRegister(GYRO_XOUT_H), this->readRegister(GYRO_XOUT_L));
-	this->GyroY = this->combineRegisters(this->readRegister(GYRO_YOUT_H), this->readRegister(GYRO_YOUT_L));
-	this->GyroZ = this->combineRegisters(this->readRegister(GYRO_ZOUT_H), this->readRegister(GYRO_ZOUT_L));
+	GyroX = combineRegisters(readRegister(GYRO_XOUT_H), readRegister(GYRO_XOUT_L));
+	GyroY = combineRegisters(readRegister(GYRO_YOUT_H), readRegister(GYRO_YOUT_L));
+	GyroZ = combineRegisters(readRegister(GYRO_ZOUT_H), readRegister(GYRO_ZOUT_L));
 
-	this->accelerationX -=  this -> zero_accX;
-	this->accelerationY -=  this -> zero_accY;
-	this->accelerationZ -=  this -> zero_accZ;
+	accelerationX -=  zero_accX;
+	accelerationY -=  zero_accY;
+	accelerationZ -=  zero_accZ;
 
-	this->GyroX -=  this -> zero_GyroX;
-	this->GyroY -=  this -> zero_GyroY;
-	this->GyroZ -=  this -> zero_GyroZ;
+	GyroX -=  zero_GyroX;
+	GyroY -=  zero_GyroY;
+	GyroZ -=  zero_GyroZ;
 
 
 	return 0;
@@ -134,7 +131,7 @@ int MPU6050::readSensorDate(){
 unsigned char  MPU6050::Get_ID()
 {
 	unsigned char mpuid;
-	mpuid = this->readRegister(WHO_AM_I);
+	mpuid = readRegister(WHO_AM_I);
 	if(mpuid!=MPU6050_ID)
 	{
 		perror("MPU6050: Failure Condition - Sensor ID not Verified");
@@ -148,11 +145,11 @@ unsigned char  MPU6050::Get_ID()
  */
 int MPU6050::Sensor_WeakUp()
 {
-	this->writeRegister(PWR_MGMT_1, 0x00);	//解除休眠状态
-	this->writeRegister(SMPLRT_DIV, 0x07);		//陀螺仪采样率，典型值：0x07(125Hz)
-	this->writeRegister(MPU_CONFIG, 0x06);		//低通滤波频率，典型值：0x06(5Hz)
-	this->writeRegister(GYRO_CONFIG, 0x18);	//陀螺仪自检及测量范围，典型值：0x18(不自检，2000deg/s)
-	this->writeRegister(ACCEL_CONFIG, 0x00); 	//加速计自检、测量范围及高通滤波频率，典型值：0x01(不自检，2G，5Hz)
+	writeRegister(PWR_MGMT_1, 0x00);	//解除休眠状态
+	writeRegister(SMPLRT_DIV, 0x07);		//陀螺仪采样率，典型值：0x07(125Hz)
+	writeRegister(MPU_CONFIG, 0x06);		//低通滤波频率，典型值：0x06(5Hz)
+	writeRegister(GYRO_CONFIG, 0x18);	//陀螺仪自检及测量范围，典型值：0x18(不自检，2000deg/s)
+	writeRegister(ACCEL_CONFIG, 0x00); 	//加速计自检、测量范围及高通滤波频率，典型值：0x01(不自检，2G，5Hz)
 
 	return 0;
 }
@@ -164,22 +161,22 @@ void MPU6050::Zero_AG()
 	int i , num = 500;
 	for(i=0; i < num; i++)
 	{
-		this->readSensorState();
-		ax += this->accelerationX ;
-		ay += this->accelerationY ;
-		az += this->accelerationZ ;
+		readSensorState();
+		ax += accelerationX ;
+		ay += accelerationY ;
+		az += accelerationZ ;
 
-		gx += this->GyroX ;
-		gy += this->GyroY ;
-		gz += this->GyroZ ;
+		gx += GyroX ;
+		gy += GyroY ;
+		gz += GyroZ ;
 	}
-	this -> zero_accX = ax / num; 
-	this -> zero_accY = ay / num; 
-	this-> zero_accZ = az / num; 
+	zero_accX = ax / num; 
+	zero_accY = ay / num; 
+	zero_accZ = az / num; 
 
-	this -> zero_GyroX = gx / num; 
-	this -> zero_GyroY = gy / num; 
-	this -> zero_GyroZ = gz / num; 
+	zero_GyroX = gx / num; 
+	zero_GyroY = gy / num; 
+	zero_GyroZ = gz / num; 
 }
 
 
